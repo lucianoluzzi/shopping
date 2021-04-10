@@ -4,12 +4,15 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_gravity="center_horizontal"
+    android:paddingTop="12dp">
 
     <ImageView
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         android:id="@+id/image"
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="150dp" />
 
     <TextView
@@ -25,6 +28,8 @@
         style="@style/TextAppearance.MaterialComponents.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
         tools:text="Nike Air 1" />
 
 </LinearLayout>

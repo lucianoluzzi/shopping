@@ -1,5 +1,6 @@
 package com.lucianoluzzi.shopping.ui.feed
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -8,12 +9,17 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.lucianoluzzi.shopping.databinding.ItemProductEntryBinding
 import com.lucianoluzzi.shopping.domain.model.ProductEntry
+import com.lucianoluzzi.shopping.extensions.setWidth
+import com.lucianoluzzi.shopping.extensions.toPx
 
 class FeedAdapter : PagingDataAdapter<ProductEntry, FeedAdapter.ProductEntryViewHolder>(
     ProductEntryDiffUtil()
 ) {
 
     override fun onBindViewHolder(holder: ProductEntryViewHolder, position: Int) {
+        val screenWidth = Resources.getSystem().displayMetrics.widthPixels - 16.toPx()
+        val columnWidth = screenWidth / 2
+        holder.itemView.setWidth(columnWidth)
         getItem(position)?.let {
             holder.bind(it)
         }
