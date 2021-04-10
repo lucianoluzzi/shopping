@@ -15,8 +15,12 @@ class ProductsPagingDataSource(
     private val apolloClient: ApolloClient
 ) : PagingSource<FeedRequest, ProductEntry>() {
 
-    override fun getRefreshKey(state: PagingState<FeedRequest, ProductEntry>): FeedRequest? =
-        null
+    override fun getRefreshKey(state: PagingState<FeedRequest, ProductEntry>): FeedRequest? {
+        return state.anchorPosition?.let {
+            val anchorPage = state.closestPageToPosition(it)
+            anchorPage?.prevKey ?: anchorPage?.nextKey
+        }
+    }
 
     override suspend fun load(params: LoadParams<FeedRequest>): LoadResult<FeedRequest, ProductEntry> {
         return try {
@@ -43,8 +47,15 @@ class ProductsPagingDataSource(
             ProductEntryMapper().map(it.nodes)
         } ?: emptyList()
 
-    private fun getNextFeedRequest(responseData: ProductFeedQuery.Data?) = FeedRequest(
-        hasNextPage = responseData?.products?.pageInfo?.hasNextPage ?: false,
-        pageToken = responseData?.products?.pageInfo?.endCursor
-    )
+    private fun getNextFeedRequest(responseData: ProductFeedQuery.Data?): FeedRequest? {
+        val hasNextPage = responseData?.products?.pageInfo?.hasNextPage ?: false
+        return if (!hasNextPage) {
+            null
+        } else {
+            FeedRequest(
+                hasNextPage = hasNextPage,
+                pageToken = responseData?.products?.pageInfo?.endCursor
+            )
+        }
+    }
 }
