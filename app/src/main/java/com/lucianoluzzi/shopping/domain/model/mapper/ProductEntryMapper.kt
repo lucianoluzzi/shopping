@@ -10,6 +10,7 @@ class ProductEntryMapper {
         ProductEntry(
             id = node.id,
             image = node.primaryImage.url,
+            brand = node.brand,
             price = node.price.amount.toFloat(),
             currency = node.price.currency.name
         )

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.lucianoluzzi.shopping.ui.main.MainFragment"
+        android:name="com.lucianoluzzi.shopping.ui.feed.FeedFragment"
         android:label="main_fragment"
-        tools:layout="@layout/main_fragment" />
+        tools:layout="@layout/feed_fragment" />
 </navigation>

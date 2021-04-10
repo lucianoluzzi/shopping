@@ -7,6 +7,7 @@ query ProductFeed ($pageSize:Int!, $pageToken:String, $searchText: String) {
 
         nodes {
             id
+            brand
             price {
                 amount
                 currency

@@ -14,15 +14,18 @@ class ProductRepositoryImpl(
 
     override fun getProducts(
         pageSize: Int,
-        pageToken: String,
         searchText: String?
     ): Flow<PagingData<ProductEntry>> {
         return Pager(
             config = PagingConfig(
                 pageSize = pageSize
-            ),
-            pagingSourceFactory = { ProductsPagingDataSource(apolloClient) }
-        ).flow
+            )
+        ) {
+            ProductsPagingDataSource(
+                pageSize = pageSize,
+                apolloClient = apolloClient
+            )
+        }.flow
     }
 
     override fun getProduct(productId: String): Flow<Result<Product>> {

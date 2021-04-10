@@ -11,6 +11,7 @@ import com.lucianoluzzi.shopping.domain.model.ProductEntry
 import com.lucianoluzzi.shopping.domain.model.mapper.ProductEntryMapper
 
 class ProductsPagingDataSource(
+    private val pageSize: Int,
     private val apolloClient: ApolloClient
 ) : PagingSource<FeedRequest, ProductEntry>() {
 
@@ -21,7 +22,7 @@ class ProductsPagingDataSource(
         return try {
             val feedRequest = params.key
             val query = ProductFeedQuery(
-                pageSize = 10,
+                pageSize = pageSize,
                 searchText = Input.optional(feedRequest?.searchText),
                 pageToken = Input.optional(feedRequest?.pageToken)
             )
