@@ -4,6 +4,7 @@ import ProductFeedQuery
 import com.lucianoluzzi.shopping.domain.model.ProductEntry
 
 class ProductEntryMapper {
+
     fun map(
         productQueryResult: List<ProductFeedQuery.Node>
     ): List<ProductEntry> = productQueryResult.map { node ->

@@ -2,6 +2,5 @@ package com.lucianoluzzi.shopping.domain.model
 
 data class FeedRequest(
     val hasNextPage: Boolean,
-    val pageToken: String? = null,
-    val searchText: String? = null
+    val pageToken: String? = null
 )

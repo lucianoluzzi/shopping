@@ -7,8 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ProductRepository {
     fun getProducts(
-        pageSize: Int = 10,
-        searchText: String? = null
+        pageSize: Int = 10
     ): Flow<PagingData<ProductEntry>>
 
     fun getProduct(productId: String): Flow<Result<Product>>

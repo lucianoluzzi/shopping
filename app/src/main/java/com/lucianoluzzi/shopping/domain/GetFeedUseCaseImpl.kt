@@ -9,5 +9,11 @@ class GetFeedUseCaseImpl(
     private val repository: ProductRepository
 ) : GetFeedUseCase {
 
-    override fun getFeed(): Flow<PagingData<ProductEntry>> = repository.getProducts()
+    override fun getFeed(): Flow<PagingData<ProductEntry>> = repository.getProducts(
+        pageSize = PAGE_SIZE
+    )
+
+    private companion object {
+        private const val PAGE_SIZE = 10
+    }
 }

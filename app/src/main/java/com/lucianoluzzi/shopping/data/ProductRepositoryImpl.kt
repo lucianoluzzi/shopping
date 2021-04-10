@@ -13,8 +13,7 @@ class ProductRepositoryImpl(
 ) : ProductRepository {
 
     override fun getProducts(
-        pageSize: Int,
-        searchText: String?
+        pageSize: Int
     ): Flow<PagingData<ProductEntry>> {
         return Pager(
             config = PagingConfig(

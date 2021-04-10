@@ -27,7 +27,6 @@ class ProductsPagingDataSource(
             val feedRequest = params.key
             val query = ProductFeedQuery(
                 pageSize = pageSize,
-                searchText = Input.optional(feedRequest?.searchText),
                 pageToken = Input.optional(feedRequest?.pageToken)
             )
 
