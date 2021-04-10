@@ -1,0 +1,43 @@
+query ProductFeed ($pageSize:Int!, $pageToken:String, $searchText: String) {
+    products(first: $pageSize, after: $pageToken, filters: { query: $searchText }) {
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+
+        nodes {
+            id
+            price {
+                amount
+                currency
+            }
+            primaryImage {
+                url
+            }
+        }
+    }
+}
+
+query SingleProduct($productId: ID!) {
+    product(id: $productId) {
+        id
+        brand
+        primaryImage(variant: FULL) {
+            url
+        }
+        secondaryImages(variant: FULL) {
+            url
+        }
+        price {
+            amount
+            currency
+        }
+        seller {
+            id
+            name
+            profileImage {
+                url
+            }
+        }
+    }
+}
