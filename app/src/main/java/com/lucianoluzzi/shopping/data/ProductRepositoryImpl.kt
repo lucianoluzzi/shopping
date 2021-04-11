@@ -1,11 +1,14 @@
 package com.lucianoluzzi.shopping.data
 
+import SingleProductQuery
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.coroutines.await
 import com.lucianoluzzi.shopping.domain.model.Product
 import com.lucianoluzzi.shopping.domain.model.ProductEntry
+import com.lucianoluzzi.shopping.domain.model.mapper.ProductMapper
 import kotlinx.coroutines.flow.Flow
 
 class ProductRepositoryImpl(
@@ -15,19 +18,24 @@ class ProductRepositoryImpl(
     override fun getProducts(
         pageSize: Int
     ): Flow<PagingData<ProductEntry>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = pageSize
-            )
-        ) {
+        val pagingConfig = PagingConfig(
+            pageSize = pageSize
+        )
+        val pager = Pager(config = pagingConfig) {
             ProductsPagingDataSource(
                 pageSize = pageSize,
                 apolloClient = apolloClient
             )
-        }.flow
+        }
+        return pager.flow
     }
 
-    override fun getProduct(productId: String): Flow<Result<Product>> {
-        TODO("Not yet implemented")
+    override suspend fun getProduct(productId: String): Response<Product>? {
+        val getProductQuery = SingleProductQuery(productId)
+        val resultData = apolloClient.query(getProductQuery).await().data
+        return resultData?.product?.let {
+            val product = ProductMapper().map(it)
+            return Response.Success(product)
+        }
     }
 }

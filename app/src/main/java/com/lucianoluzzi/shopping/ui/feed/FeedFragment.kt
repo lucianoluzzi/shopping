@@ -44,8 +44,7 @@ class FeedFragment : Fragment() {
     private fun navigateToProduct(productEntry: ProductEntry) {
         val toProductFragment =
             FeedFragmentDirections.actionMainFragmentToProductFragment(
-                id = productEntry.id,
-                images = arrayOf(productEntry.image)
+                id = productEntry.id
             )
         findNavController().navigate(toProductFragment)
     }

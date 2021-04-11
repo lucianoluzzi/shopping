@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.lucianoluzzi.shopping.databinding.ProductFragmentBinding
+import com.lucianoluzzi.shopping.domain.model.Product
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class ProductFragment : Fragment() {
     private lateinit var binding: ProductFragmentBinding
     private val navigationArgs: ProductFragmentArgs by navArgs()
-    private val adapter by lazy {
-        ImageSliderAdapter(this, navigationArgs.images)
+    private val viewModel by viewModel<ProductViewModel> {
+        parametersOf(navigationArgs.id)
     }
 
     override fun onCreateView(
@@ -26,10 +29,24 @@ class ProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.imagePager.adapter = adapter
+        viewModel.uiState.observe(viewLifecycleOwner) {
+            handleUIState(it)
+        }
     }
 
-    private fun setViews() {
+    private fun handleUIState(uiState: UIState) {
+        when (uiState) {
+            is UIState.Error -> {
+            }
+            is UIState.Loading -> {
+            }
+            is UIState.Success -> setViews(uiState.data)
+        }
+    }
 
+    private fun setViews(product: Product) = with(binding) {
+        imagePager.adapter = ImageSliderAdapter(this@ProductFragment, product.images)
+        description.text = product.description
+        price.text = "${product.currency} ${product.price}"
     }
 }

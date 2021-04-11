@@ -5,7 +5,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class ImageSliderAdapter(
     parentFragment: Fragment,
-    private val images: Array<String>
+    private val images: List<String>
 ) : FragmentStateAdapter(parentFragment) {
 
     override fun getItemCount() = images.size

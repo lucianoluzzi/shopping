@@ -10,5 +10,5 @@ interface ProductRepository {
         pageSize: Int = 10
     ): Flow<PagingData<ProductEntry>>
 
-    fun getProduct(productId: String): Flow<Result<Product>>
+    suspend fun getProduct(productId: String): Response<Product>?
 }

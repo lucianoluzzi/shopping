@@ -6,5 +6,5 @@ data class Product(
     val description: String,
     val price: Float,
     val currency: String,
-    val seller: String
+    val seller: Seller
 )

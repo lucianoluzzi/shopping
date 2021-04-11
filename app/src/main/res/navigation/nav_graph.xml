@@ -21,8 +21,5 @@
         <argument
             android:name="id"
             app:argType="string" />
-        <argument
-            android:name="images"
-            app:argType="string[]" />
     </fragment>
 </navigation>
