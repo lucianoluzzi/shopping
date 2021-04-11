@@ -17,7 +17,7 @@ class ProductViewModel(
     }
     val uiState: LiveData<UIState> = _uiState
 
-    init {
+    fun loadProduct() {
         viewModelScope.launch {
             when (val response = getProductUseCase.getProduct(productId)) {
                 is Response.Error -> _uiState.value = UIState.Error(response.errorMessage)

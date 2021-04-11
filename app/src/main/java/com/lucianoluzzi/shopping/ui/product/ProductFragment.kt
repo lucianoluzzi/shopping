@@ -32,6 +32,7 @@ class ProductFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) {
             handleUIState(it)
         }
+        viewModel.loadProduct()
     }
 
     private fun handleUIState(uiState: UIState) {
