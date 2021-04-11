@@ -6,14 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.lucianoluzzi.shopping.databinding.FeedFragmentBinding
+import com.lucianoluzzi.shopping.domain.model.ProductEntry
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FeedFragment : Fragment() {
     private lateinit var binding: FeedFragmentBinding
     private val viewModel by viewModel<FeedViewModel>()
-    private val feedAdapter = FeedAdapter()
+    private val feedAdapter = FeedAdapter { productEntry ->
+        navigateToProduct(productEntry)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,5 +39,14 @@ class FeedFragment : Fragment() {
                 feedAdapter.submitData(it)
             }
         }
+    }
+
+    private fun navigateToProduct(productEntry: ProductEntry) {
+        val toProductFragment =
+            FeedFragmentDirections.actionMainFragmentToProductFragment(
+                id = productEntry.id,
+                images = arrayOf(productEntry.image)
+            )
+        findNavController().navigate(toProductFragment)
     }
 }

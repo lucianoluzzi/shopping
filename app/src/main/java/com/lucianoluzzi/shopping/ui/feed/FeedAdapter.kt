@@ -12,17 +12,24 @@ import com.lucianoluzzi.shopping.domain.model.ProductEntry
 import com.lucianoluzzi.shopping.extensions.setWidth
 import com.lucianoluzzi.shopping.extensions.toPx
 
-class FeedAdapter : PagingDataAdapter<ProductEntry, FeedAdapter.ProductEntryViewHolder>(
+class FeedAdapter(
+    private val onClickListener: (productEntry: ProductEntry) -> Unit
+) : PagingDataAdapter<ProductEntry, FeedAdapter.ProductEntryViewHolder>(
     ProductEntryDiffUtil()
 ) {
 
     override fun onBindViewHolder(holder: ProductEntryViewHolder, position: Int) {
-        val screenWidth = Resources.getSystem().displayMetrics.widthPixels - 16.toPx()
-        val columnWidth = screenWidth / 2
-        holder.itemView.setWidth(columnWidth)
+        setWidth(holder)
         getItem(position)?.let {
             holder.bind(it)
         }
+    }
+
+    private fun setWidth(holder: ProductEntryViewHolder) {
+        val currentPadding = 16.toPx()
+        val screenWidth = Resources.getSystem().displayMetrics.widthPixels - currentPadding
+        val columnWidth = screenWidth / 2
+        holder.itemView.setWidth(columnWidth)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductEntryViewHolder {
@@ -39,6 +46,9 @@ class FeedAdapter : PagingDataAdapter<ProductEntry, FeedAdapter.ProductEntryView
             description.text = productEntry.brand
             price.text = "${productEntry.currency} ${productEntry.price}"
             image.load(productEntry.image)
+            container.setOnClickListener {
+                onClickListener(productEntry)
+            }
         }
     }
 
